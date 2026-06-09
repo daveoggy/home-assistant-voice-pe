@@ -15,6 +15,7 @@ class UdpMic : public Component {
   void set_target(const std::string &ip, uint16_t port) { ip_ = ip; port_ = port; }
   void set_channels(uint8_t ch) { channels_ = ch; }
   void set_bits_shift(uint8_t s) { bits_shift_ = s; }
+  void set_version(const std::string &v) { version_ = v; }
   void setup() override;
   void loop() override;
   float get_setup_priority() const override { return setup_priority::AFTER_CONNECTION; }
@@ -26,6 +27,7 @@ class UdpMic : public Component {
   uint16_t port_{10500};
   uint8_t channels_{2};
   uint8_t bits_shift_{16};
+  std::string version_{"?"};
   int sock_{-1};
   struct sockaddr_in dest_ {};
   std::vector<uint8_t> out_;

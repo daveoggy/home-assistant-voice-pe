@@ -11,6 +11,7 @@ namespace udp_mic {
 static const char *const TAG = "udp_mic";
 
 void UdpMic::setup() {
+  ESP_LOGI(TAG, "==== udp_mic version=%s ====", this->version_.c_str());
   this->sock_ = ::socket(AF_INET, SOCK_DGRAM, 0);
   std::memset(&this->dest_, 0, sizeof(this->dest_));
   this->dest_.sin_family = AF_INET;
@@ -32,8 +33,9 @@ void UdpMic::loop() {
   uint32_t now = millis();
   if (now - this->last_log_ >= 2000) {
     this->last_log_ = now;
-    ESP_LOGI(TAG, "stats: calls=%u sent=%u errs=%u in=%uB out=%uB mic_running=%d", this->calls_, this->sent_,
-             this->errs_, this->in_bytes_, this->out_bytes_, this->mic_ ? this->mic_->is_running() : -1);
+    ESP_LOGI(TAG, "[%s] stats: calls=%u sent=%u errs=%u in=%uB out=%uB mic_running=%d", this->version_.c_str(),
+             this->calls_, this->sent_, this->errs_, this->in_bytes_, this->out_bytes_,
+             this->mic_ ? this->mic_->is_running() : -1);
   }
 }
 
